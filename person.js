@@ -8,9 +8,9 @@ class PERSON{
 
 
 class PROVIDER extends PERSON{
-    constructor(id, name, active, areasOfExpertise){
+    constructor(id, name, active, areaOfExpertese){
         super(id, name, active);
-        this.areasOfExpertise = areasOfExpertise;
+        this.areaOfExpertese = areaOfExpertese;
     }
 }
 
@@ -42,7 +42,9 @@ let p2 = new PERSON(2, "Tilly", true)
 
 let people = [p1, p2, providers, clients]
 
-console.log(people)
+//console.log(people)
+
+let appointmentId = 1;
 
 class APPOINTMENT{
     constructor(appointmentId, date, time, duration, provider, client, cost, description){
@@ -50,12 +52,48 @@ class APPOINTMENT{
         this.date = date;
         this.time = time;
         this.duration = duration;
-        this.provider = provider;
+        this.provider = chooseProvider(provider);
         this.client = client;
         this.cost = cost;
         this.description = description; 
     }
+
+    appointmentId = appointmentId + 1;
 }
 
+function chooseProvider(provAreaOfExpertese){
+    let chooseProviderArray = []
+    for(i in providers[i].areaOfExpertese){
+        if(providers[i].areaOfExpertese == provAreaOfExpertese && providers[i].active == true){
+            chooseProviderArray.push(providers[i]);
+        }
+    }
+    max = chooseProviderArray.length
+    min = 0
+    index = Math.floor(Math.random() * (max - min + 1)) + min
+
+    return chooseProviderArray[index].name
+}
+
+
 let appointment1 = new APPOINTMENT('appointmentId', 'date', 'time', 'duration', prov1, c1, 'cost', 'description')
-console.log(appointment1)
+//console.log(appointment1)
+
+function init(){
+    var select = document.getElementById("selectProvider");
+
+    for(var i = 0; i < providers.length; i++){
+
+        var opt = providers[i].areaOfExpertese;
+        console.log(opt);
+        var el = document.createElement("option");
+        el.textContent = opt;
+        el.value = providers[i];
+        console.log(el);
+
+        select.appendChild(el);
+        console.log(select)
+    }
+}
+
+// document.addEventListener("DOMContentLoaded", init());
