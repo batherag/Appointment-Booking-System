@@ -27,7 +27,7 @@ class CLIENT extends PERSON{
     //}
 }
 
-let prov1 = new PROVIDER(2, "JC", false, "Dentist")
+let prov1 = new PROVIDER(2, "JC", true, "Dentist")
 let prov2 = new PROVIDER(4, "Bob", true, "OT")
 
 let providers = [prov1, prov2]
@@ -47,14 +47,14 @@ let people = [p1, p2, providers, clients]
 let appointmentId = 1;
 
 class APPOINTMENT{
-    constructor(appointmentId, date, time, duration, provider, client, cost, description){
+    constructor(date, time, duration, providerJob, client, description){
         this.appointmentId = appointmentId;
         this.date = date;
         this.time = time;
         this.duration = duration;
-        this.provider = chooseProvider(provider);
-        this.client = client;
-        this.cost = cost;
+        this.provider = chooseProvider(providerJob);
+        this.client = clientNameCheck(client);
+        this.cost = costCalculator(duration);
         this.description = description; 
     }
 
@@ -63,21 +63,43 @@ class APPOINTMENT{
 
 function chooseProvider(provAreaOfExpertese){
     let chooseProviderArray = []
-    for(i in providers[i].areaOfExpertese){
+    for(var i = 0; i < providers.length; i++){
         if(providers[i].areaOfExpertese == provAreaOfExpertese && providers[i].active == true){
             chooseProviderArray.push(providers[i]);
         }
     }
-    max = chooseProviderArray.length
+    max = chooseProviderArray.length - 1
     min = 0
     index = Math.floor(Math.random() * (max - min + 1)) + min
 
-    return chooseProviderArray[index].name
+    return chooseProviderArray[index]
+}
+
+function clientNameCheck(clientName){
+    for(var i = 0; i < clients.length; i++){
+        if(clients[i].name == clientName){
+            x = clients[i]
+        }
+    }
+    return x
+}
+
+function costCalculator(duration){
+    let cost = "0"
+    if(duration == "5 minutes"){
+        cost = "£10"
+    }else if(duration == "10 minutes"){
+        cost = "£12"
+    }else if(duration == "15 minutes"){
+        cost = "£15"
+    }
+    console.log(cost)
+    return cost
 }
 
 
-let appointment1 = new APPOINTMENT('appointmentId', 'date', 'time', 'duration', prov1, c1, 'cost', 'description')
-//console.log(appointment1)
+let appointment1 = new APPOINTMENT('date', 'time', "5 minutes", prov1.areaOfExpertese, 'Jacey', 'description')
+console.log(appointment1)
 
 function init(){
     var select = document.getElementById("selectProvider");
